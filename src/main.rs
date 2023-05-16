@@ -1,8 +1,13 @@
 use std::net::TcpListener;
-use zero2prod::run;
+use zero2prod::configuration::get_configuration;
+use zero2prod::startup;
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    let listener = TcpListener::bind("127.0.0.1:3000").expect("failed to bind to port 3000");
-    run(listener)?.await
+async fn main() -> Result<(), std::io::Error> {
+    let config = get_configuration().expect("failed to read config file.");
+
+    let addr = format!("127.0.0.1:{}", config.application_port);
+
+    let listener = TcpListener::bind(addr)?;
+    startup::run(listener)?.await
 }
