@@ -7,7 +7,7 @@ async fn health_check_works() {
     let client = reqwest::Client::new();
 
     let response = client
-        .get("http://localhost:3000/health_check")
+        .get("http://127.0.0.1:3000/health_check")
         .send()
         .await
         .expect("failed to get /health_check");
